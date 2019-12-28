@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!--todo check for errors-->
-<hibernate-configuration xmlns="http://www.hibernate.org/xsd/hibernate-configuration">
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="hibernate.connection.url">jdbc:mysql://localhost/hw9articles?createDatabaseIfNotExist=true</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password"></property>
-<!--        todo check for errors-->
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="show_sql">true</property>
+        <mapping class="ir.maktab32.java.homeworks.hw9.articles.entities.User"/>
+        <mapping class="ir.maktab32.java.homeworks.hw9.articles.entities.Article"/>
+        <mapping class="ir.maktab32.java.homeworks.hw9.articles.entities.Category"/>
+        <mapping class="ir.maktab32.java.homeworks.hw9.articles.entities.Tag"/>
+        <mapping class="ir.maktab32.java.homeworks.hw9.articles.entities.Role"/>
+
     </session-factory>
 </hibernate-configuration>
