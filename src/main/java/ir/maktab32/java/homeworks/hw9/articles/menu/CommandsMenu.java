@@ -8,21 +8,25 @@ public class CommandsMenu {
     private static Scanner scanner = new Scanner(System.in);
     public static void execute(){
 
+        boolean isSignedIn = CurrentUserStatus.isSignedIn();
+        boolean isAdmin = CurrentUserStatus.isAdmin();
+        boolean isWriter = CurrentUserStatus.isWriter();
+
         System.out.println("+-------------------------------------------+");
         System.out.println("|                     Menu                  |");
         System.out.println("+-------------------------------------------+");
-        if (!CurrentUserStatus.isSignedIn()){
+        if (!isSignedIn){
             System.out.println("| sign in        -->  Sign In               |");
             System.out.println("| sign up        -->  Sign Up               |");
         }
         System.out.println("| all articles   -->  all Articles          |");
         System.out.println("| article item   -->  Article Details       |");
-        if (CurrentUserStatus.isWriter()){
+        if (isWriter){
             System.out.println("| my articles    -->  My Articles           |");
             System.out.println("| add article    -->  Add Article           |");
             System.out.println("| edit article   -->  Edit Article          |");
         }
-        if (CurrentUserStatus.isAdmin()){
+        if (isAdmin){
             System.out.println("| change role    -->  Change User Roles     |");
             System.out.println("| add tag        -->  Add New Tags          |");
             System.out.println("| add category   -->  Add New Categories    |");
@@ -31,7 +35,7 @@ public class CommandsMenu {
             System.out.println("| unpublish      -->  UnPublish Article     |");
         }
         System.out.println("| search         -->  Search Articles       |");
-        if (CurrentUserStatus.isSignedIn()){
+        if (isSignedIn){
             System.out.println("| dashboard      -->  Dashboard             |");
             System.out.println("| change pass    -->  Change Password       |");
             System.out.println("| sign out       -->  Sign Out              |");
