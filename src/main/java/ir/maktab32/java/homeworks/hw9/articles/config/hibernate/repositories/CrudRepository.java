@@ -15,27 +15,27 @@ public abstract class CrudRepository<Entity, ID extends Serializable> {
         return HibernateUtil.getSession();
     }
 
-    protected Entity save(Entity entity){
+    public Entity save(Entity entity){
         getSession().beginTransaction();
         getSession().save(entity);
         getSession().getTransaction().commit();
         return entity;
     }
 
-    protected Entity update(Entity entity){
+    public Entity update(Entity entity){
         getSession().beginTransaction();
         getSession().update(entity);
         getSession().getTransaction().commit();
         return entity;
     }
 
-    protected void remove(Entity entity){
+    public void remove(Entity entity){
         getSession().beginTransaction();
         getSession().remove(entity);
         getSession().getTransaction().commit();
     }
 
-    protected void removeById(ID id){
+    public void removeById(ID id){
         Entity entity = findById(id);
         if (entity != null) {
             getSession().beginTransaction();
@@ -44,19 +44,27 @@ public abstract class CrudRepository<Entity, ID extends Serializable> {
         }
     }
 
-    protected List<Entity> findAll(){
+    public List<Entity> findAll(){
         getSession().beginTransaction();
-        //todo check for errors. i didn't set Query<Entity>
         Query query = getSession().createQuery("from " + getEntityClass().getName(), getEntityClass());
         List<Entity> entities = query.list();
         getSession().getTransaction().commit();
         return entities;
     }
 
-    protected Entity findById(ID id){
+    public Entity findById(ID id){
         getSession().beginTransaction();
         Entity entity = getSession().load(getEntityClass(), id);
         getSession().getTransaction().commit();
         return entity;
+    }
+
+    public boolean isExisting(ID id){
+        try {
+            findById(id).equals(null);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }

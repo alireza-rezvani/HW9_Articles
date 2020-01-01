@@ -1,55 +1,106 @@
 package ir.maktab32.java.homeworks.hw9.articles.features.usermanagement.impl;
 
+import com.mysql.cj.x.protobuf.MysqlxDatatypes;
+import ir.maktab32.java.homeworks.hw9.articles.entities.Role;
 import ir.maktab32.java.homeworks.hw9.articles.entities.User;
 import ir.maktab32.java.homeworks.hw9.articles.features.usermanagement.usecase.SignUpUseCase;
+import ir.maktab32.java.homeworks.hw9.articles.repositories.RoleRepository;
 import ir.maktab32.java.homeworks.hw9.articles.repositories.UserRepository;
 import ir.maktab32.java.homeworks.hw9.articles.share.AuthenticationService;
+import ir.maktab32.java.homeworks.hw9.articles.utilities.CurrentUserStatus;
 import ir.maktab32.java.homeworks.hw9.articles.utilities.IsNumeric;
+import ir.maktab32.java.homeworks.hw9.articles.utilities.RoleTitle;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
 
 public class SignUpUseCaseImpl implements SignUpUseCase {
     @Override
-    public User execute(User user) {
+    public User execute() {
         User result;
-        if (signUpValidation(user)){
-            User createdUser = UserRepository.getInstance().save(user);
-            System.out.println("User Created Successfully! User Id: " + createdUser.getId());
+        User validateResult = inputAndValidation();
+        if (validateResult != null){
+            User createdUser = UserRepository.getInstance().save(validateResult);
+            System.out.println("\t\t\t\u2705User Created Successfully! User Id: " + createdUser.getId() + " (Password: National Code)");
             result = createdUser;
         }
         else {
-            System.out.println("User Creation Failed");
+            System.out.println("\t\t\t\u26a0 User Creation Failed!");
             result = null;
         }
         return result;
     }
 
-    private boolean signUpValidation(User user){
-        boolean result = true;
-        if (AuthenticationService.getInstance().getSignedInUser() != null){
-            System.out.println("Another User is Signed In! Sign Out First!");
-            result = false;
-        }
+    private User inputAndValidation(){
+        Scanner scanner = new Scanner(System.in);
 
-        List<User> users = UserRepository.getInstance().findAll();
-        for (User i : users)
-            if (i.getUsername().equalsIgnoreCase(user.getUsername())){
-                System.out.println("This Username Already Exists!");
-                result = false;
-                break;
+        User result = null;
+
+        if (CurrentUserStatus.isSignedIn())
+            System.out.println("\t\u26a0 Another User is Signed In! Sign Out First!");
+        else {
+            String username = inputUsername();
+            String nationalCode = inputNationalCode();
+            System.out.print("\t\u29bf Birth Date: ");
+            String birthDate = scanner.nextLine();
+            Role writerRole = null;
+            List<Role> allRoles = RoleRepository.getInstance().findAll();
+            for (Role i : allRoles){
+                if (i.getTitle().equals(RoleTitle.WRITER)){
+                    writerRole = i;
+                    break;
+                }
             }
-        for (User i : users)
-            if (i.getId() == user.getId()){
-                System.out.println("This User Id Already Exists!");
-                result = false;
-                break;
+            if (writerRole == null)
+                System.out.println("\t\t\u26a0 Add Writer Role to Database As Admin!");
+
+            if (username != null && nationalCode != null && writerRole != null){
+                result = new User(null, username, nationalCode, nationalCode, birthDate, Arrays.asList(writerRole));
             }
-
-        if ((!IsNumeric.execute(user.getNationalCode())) || (user.getNationalCode().length() != 10)){
-            System.out.println("Invalid National Code!");
-            result = false;
         }
-
         return result;
+    }
+    private String inputUsername(){
+        String username = null;
+
+        Scanner scanner = new Scanner(System.in);
+        List<User> allUsers = UserRepository.getInstance().findAll();
+        while (username == null){
+            System.out.print("\t\u29bf Username: ");
+            username = scanner.nextLine();
+            if (username.isEmpty()){
+                System.out.println("\t\t\u26a0 Username Can't Be Empty!");
+                username = null;
+            }
+            else {
+                if (allUsers.size() > 0) {
+                    for (User i : allUsers) {
+                        if (i.getUsername().equals(username)) {
+                            System.out.println("\t\t\u26a0 This Username Already Exists!");
+                            username = null;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return username;
+    }
+    private String inputNationalCode(){
+        Scanner scanner = new Scanner(System.in);
+
+        String nationalCode = null;
+        while (nationalCode == null){
+            System.out.print("\t\u29bf National Code: ");
+            nationalCode = scanner.nextLine();
+
+            if ((!IsNumeric.execute(nationalCode)) || nationalCode.length() != 10){
+                System.out.println("\t\t\u26a0 Invalid National Code!");
+                nationalCode = null;
+            }
+        }
+        return nationalCode;
     }
 }

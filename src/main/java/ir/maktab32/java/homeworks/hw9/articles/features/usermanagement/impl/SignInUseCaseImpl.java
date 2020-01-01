@@ -4,51 +4,56 @@ import ir.maktab32.java.homeworks.hw9.articles.entities.User;
 import ir.maktab32.java.homeworks.hw9.articles.features.usermanagement.usecase.SignInUseCase;
 import ir.maktab32.java.homeworks.hw9.articles.repositories.UserRepository;
 import ir.maktab32.java.homeworks.hw9.articles.share.AuthenticationService;
+import ir.maktab32.java.homeworks.hw9.articles.utilities.CurrentUserStatus;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class SignInUseCaseImpl implements SignInUseCase {
     @Override
-    public User execute(String username, String password) {
-        User result = null;
-        if (signInValidation(username, password)){
-            for (User i : UserRepository.getInstance().findAll())
-                if (i.getUsername().equalsIgnoreCase(username)){
-                    result = i;
-                    AuthenticationService.getInstance().setSignedInUser(result);
-                    System.out.println("Sign In Successful!");
-                    break;
-                }
-
+    public User execute() {
+        User result;
+        User validateResult = inputAndValidation();
+        if (validateResult != null){
+            System.out.println("\t\t\u26a0 Sign In Successful!");
+            result = validateResult;
+            AuthenticationService.getInstance().setSignedInUser(result);
         }
         else {
-            System.out.println("Sign In Failed!");
+            System.out.println("\t\t\u26a0 Sign In Failed!");
             result = null;
         }
         return result;
     }
 
-    private boolean signInValidation(String username, String password){
-        boolean result = true;
-        List<User> users = UserRepository.getInstance().findAll();
-        boolean userExists = false;
-        User userFromDataBase = null;
-        for (User i : users)
-            if (i.getUsername().equalsIgnoreCase(username)){
-                userExists = true;
-                userFromDataBase = i;
-                break;
+    private User inputAndValidation(){
+        User result = null;
+
+        Scanner scanner = new Scanner(System.in);
+
+        if (CurrentUserStatus.isSignedIn())
+            System.out.println("\t\u26a0 You Are Signed In Already!" );
+        else {
+            System.out.print("Username: ");
+            String username = scanner.nextLine();
+            System.out.print("Password: ");
+            String password = scanner.nextLine();
+
+            List<User> allUsers = UserRepository.getInstance().findAll();
+            User requestedUser = null;
+            for (User i : allUsers){
+                if (i.getUsername().equals(username)){
+                    requestedUser = i;
+                    break;
+                }
             }
-
-        if (!userExists){
-            System.out.println("There is not Such User!");
-            result = false;
+            if (requestedUser == null)
+                System.out.println("\t\u26a0 This Username Doesn't Exist!");
+            else if (!requestedUser.getPassword().equals(password))
+                System.out.println("\t\u26a0 Invalid Password!");
+            else
+                result = requestedUser;
         }
-        else if (!userFromDataBase.getPassword().equals(password)){
-            System.out.println("Invalid Password!");
-            result = false;
-        }
-
         return result;
     }
 }

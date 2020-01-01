@@ -5,5 +5,5 @@ import ir.maktab32.java.homeworks.hw9.articles.entities.Article;
 import java.util.List;
 
 public interface FindAllArticlesByUserUseCase {
-    List<Article> list();
+    List<Article> execute();
 }

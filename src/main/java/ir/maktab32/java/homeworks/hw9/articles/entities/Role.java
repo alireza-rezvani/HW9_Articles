@@ -17,8 +17,19 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true)
     private RoleTitle title;
 
     @ManyToMany(mappedBy = "roles")
     private List<User> users;
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", title=" + title +
+
+                '}';
+    }
 }

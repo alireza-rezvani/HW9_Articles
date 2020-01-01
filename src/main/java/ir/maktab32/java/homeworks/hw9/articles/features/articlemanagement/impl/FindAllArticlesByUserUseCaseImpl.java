@@ -8,7 +8,7 @@ import java.util.List;
 
 public class FindAllArticlesByUserUseCaseImpl implements FindAllArticlesByUserUseCase {
     @Override
-    public List<Article> list() {
+    public List<Article> execute() {
         List<Article> result;
         if (validation()) {
             result = ArticleRepository.getInstance().findAll();
@@ -29,4 +29,5 @@ public class FindAllArticlesByUserUseCaseImpl implements FindAllArticlesByUserUs
         }
         return result;
     }
+
 }

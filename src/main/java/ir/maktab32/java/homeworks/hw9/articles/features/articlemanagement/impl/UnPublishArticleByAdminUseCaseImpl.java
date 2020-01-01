@@ -6,14 +6,22 @@ import ir.maktab32.java.homeworks.hw9.articles.entities.User;
 import ir.maktab32.java.homeworks.hw9.articles.features.articlemanagement.usecase.UnPublishArticleByAdminUseCase;
 import ir.maktab32.java.homeworks.hw9.articles.repositories.ArticleRepository;
 import ir.maktab32.java.homeworks.hw9.articles.share.AuthenticationService;
+import ir.maktab32.java.homeworks.hw9.articles.utilities.CurrentUserStatus;
+import ir.maktab32.java.homeworks.hw9.articles.utilities.IsNumeric;
 import ir.maktab32.java.homeworks.hw9.articles.utilities.RoleTitle;
+
+import java.util.Scanner;
 
 public class UnPublishArticleByAdminUseCaseImpl implements UnPublishArticleByAdminUseCase {
     @Override
-    public boolean execute(Long id) {
+    public boolean execute() {
         boolean result;
-        if (validation(id)){
-            ArticleRepository.getInstance().findById(id).setIsPublished(false);
+        Long validatedId = inputAndValidation();
+        if (validatedId != null){
+            Article article = ArticleRepository.getInstance().findById(validatedId);
+            article.setIsPublished(false);
+            article.setPublishDate(null);
+            ArticleRepository.getInstance().update(article);
             System.out.println("Article UnPublished Successfully!");
             result = true;
         }
@@ -24,46 +32,33 @@ public class UnPublishArticleByAdminUseCaseImpl implements UnPublishArticleByAdm
         return result;
     }
 
-    private boolean validation(Long id){
-        boolean result = true;
-        User currentUser = AuthenticationService.getInstance().getSignedInUser();
-        if (currentUser == null){
-            System.out.println("Please Sign In As Admin!");
-            result = false;
+    private Long inputAndValidation(){
+        Scanner scanner = new Scanner(System.in);
+        Long result;
+
+        if (!CurrentUserStatus.isAdmin()){
+            System.out.println("sign in as admin");
+            result = null;
         }
         else {
-            boolean isAdmin = false;
-            for (Role i : currentUser.getRoles()){
-                if (i.getTitle().equals(RoleTitle.ADMIN)){
-                    isAdmin = true;
-                    break;
-                }
-            }
-            if (!isAdmin){
-                System.out.println("Please Sign In As Admin!");
-                result = false;
-            }
-            else{
-                boolean articleExists = false;
-                for (Article i : ArticleRepository.getInstance().findAll()){
-                    if (i.getId() == id){
-                        articleExists = true;
-                        break;
-                    }
-                }
-                if (!articleExists){
-                    System.out.println("Requested Article Doesn't Exist!");
-                    result = false;
+            System.out.print("Article Id: ");
+            String articleId = scanner.nextLine();
+            if (IsNumeric.execute(articleId) && ArticleRepository.getInstance().isExisting(Long.parseLong(articleId))){
+                if (ArticleRepository.getInstance().findById(Long.parseLong(articleId)).getIsPublished() == false){
+                    System.out.println("unpublished already");
+                    result = null;
                 }
                 else {
-                    Article requestedArticle = ArticleRepository.getInstance().findById(id);
-                    if (requestedArticle.getIsPublished() == false){
-                        System.out.println("This Article is not Published!");
-                        result = false;
-                    }
+                    result = Long.parseLong(articleId);
                 }
             }
+            else {
+                System.out.println("invalid article id");
+                result = null;
+            }
         }
+
+
         return result;
     }
 }

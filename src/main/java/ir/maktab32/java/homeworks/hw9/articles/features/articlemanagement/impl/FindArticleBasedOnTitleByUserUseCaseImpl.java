@@ -6,22 +6,26 @@ import ir.maktab32.java.homeworks.hw9.articles.repositories.ArticleRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class FindArticleBasedOnTitleByUserUseCaseImpl implements FindArticleBasedOnTitleByUserUseCase {
     @Override
-    public List<Article> list(String title) {
+    public List<Article> execute() {
         List<Article> result;
-        if (validation(title)){
+        String validatedTitle = inputAndValidation();
+        if (validatedTitle != null){
             List<Article> allArticles = ArticleRepository.getInstance().findAll();
             result = new ArrayList<>();
             for (Article i : allArticles) {
-                if (i.getTitle().contains(title))
+                if (i.getTitle().contains(validatedTitle))
                     result.add(i);
             }
             if (result.size() != 0)
                 System.out.println("Articles Found Successfully!");
-            else
+            else {
                 System.out.println("No Matches Found!");
+                result = null;
+            }
         }
         else {
             System.out.println("Loading Articles Failed!");
@@ -30,9 +34,14 @@ public class FindArticleBasedOnTitleByUserUseCaseImpl implements FindArticleBase
         return result;
     }
 
-    private boolean validation(String title){
-        boolean result = true;
-        //no validation to check
+    private String inputAndValidation(){
+        Scanner scanner = new Scanner(System.in);
+        String result;
+
+        System.out.print("Title: ");
+        result = scanner.nextLine();
+
+        //nothing to check
         return result;
     }
 }

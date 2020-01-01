@@ -6,50 +6,47 @@ import ir.maktab32.java.homeworks.hw9.articles.entities.User;
 import ir.maktab32.java.homeworks.hw9.articles.features.articlemanagement.usecase.DeleteArticleByAdminUseCase;
 import ir.maktab32.java.homeworks.hw9.articles.repositories.ArticleRepository;
 import ir.maktab32.java.homeworks.hw9.articles.share.AuthenticationService;
+import ir.maktab32.java.homeworks.hw9.articles.utilities.CurrentUserStatus;
+import ir.maktab32.java.homeworks.hw9.articles.utilities.IsNumeric;
 import ir.maktab32.java.homeworks.hw9.articles.utilities.RoleTitle;
+
+import java.util.Scanner;
 
 public class DeleteArticleByAdminUseCaseImpl implements DeleteArticleByAdminUseCase {
     @Override
-    public boolean execute(Long id) {
+    public boolean execute() {
         boolean result;
-        if (deleteArticleValidation(id)){
-            ArticleRepository.getInstance().removeById(id);
+        Long validatedArticleId = inputAndValidate();
+        if (validatedArticleId != null){
+            ArticleRepository.getInstance().removeById(validatedArticleId);
             result = true;
-            System.out.println("Article Deleted Successfully!");
+            System.out.println("article deleted successfully");
         }
         else {
-            System.out.println("Delete Failed!");
             result = false;
+            System.out.println("deleting article failed");
         }
         return result;
     }
 
-    private boolean deleteArticleValidation(Long id){
-        boolean result = true;
-        User currentUser = AuthenticationService.getInstance().getSignedInUser();
-        if (currentUser == null){
-            System.out.println("Please Sign In as Admin!");
-            result = false;
+private Long inputAndValidate(){
+    Scanner scanner = new Scanner(System.in);
+    Long result;
+    if (!CurrentUserStatus.isAdmin()){
+        System.out.println("sign in as admin");
+        result = null;
+    }
+    else {
+        System.out.print("article id: ");
+        String articleId = scanner.nextLine();
+        if (IsNumeric.execute(articleId) && ArticleRepository.getInstance().isExisting(Long.parseLong(articleId))){
+            result = Long.parseLong(articleId);
         }
-        else{
-            boolean isAdmin = false;
-            for (Role i : currentUser.getRoles())
-                if (i.getTitle().equals(RoleTitle.ADMIN)) {
-                    isAdmin = true;
-                    break;
-                }
-            if (!isAdmin){
-                System.out.println("Please Sign In as Admin!");
-                result = false;
-            }
-            else {
-                Article requestedArticle = ArticleRepository.getInstance().findById(id);
-                if (requestedArticle == null){
-                    System.out.println("Requested Article Doesn't Exist in Database!");
-                    result = false;
-                }
-            }
+        else {
+            System.out.println("Invalid article id");
+            result = null;
         }
-        return result;
+    }
+    return result;
     }
 }

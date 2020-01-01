@@ -3,5 +3,5 @@ package ir.maktab32.java.homeworks.hw9.articles.features.categorymanagement.usec
 import ir.maktab32.java.homeworks.hw9.articles.entities.Category;
 
 public interface AddCategoryByAdminUseCase {
-    Category execute(Category category);
+    Category execute();
 }

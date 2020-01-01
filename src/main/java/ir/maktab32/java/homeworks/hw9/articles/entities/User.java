@@ -15,15 +15,28 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
+    @Column(unique = true)
     private String username;
     private String password;
     private String nationalCode;
     private String birthday;
 
-    @OneToMany(mappedBy = "users")
-    private List<Article> articles;
+//    @OneToMany(mappedBy = "author")
+//    private List<Article> articles;
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Role> roles;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", nationalCode='" + nationalCode + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
 }

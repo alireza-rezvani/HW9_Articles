@@ -18,8 +18,16 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @Column(unique = true)
     String title;
 
     @ManyToMany(mappedBy = "tags")
     private List<Article> articles;
+
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "title='" + title + '\'' +
+                '}';
+    }
 }

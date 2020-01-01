@@ -17,15 +17,21 @@ public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String title;
     private String brief;
     private String content;
+
+    @Column(nullable = false)
     private Date createDate;
     private Date lastUpdateDate;
     private Date publishDate;
+
+    @Column(nullable = false)
     private Boolean isPublished;
 
-    @ManyToMany(mappedBy = "articles")
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Tag> tags;
 
     @ManyToOne

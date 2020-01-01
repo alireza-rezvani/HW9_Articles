@@ -3,5 +3,5 @@ package ir.maktab32.java.homeworks.hw9.articles.features.articlemanagement.useca
 import ir.maktab32.java.homeworks.hw9.articles.entities.Article;
 
 public interface AddArticleByWriterUseCase {
-    Article execute(Article article);
+    Article execute();
 }
