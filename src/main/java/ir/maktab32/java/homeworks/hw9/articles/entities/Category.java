@@ -20,6 +20,12 @@ public class Category {
     private String title;
     private String description;
 
-//    @OneToMany(mappedBy = "category")
-//    private List<Article> articles;
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

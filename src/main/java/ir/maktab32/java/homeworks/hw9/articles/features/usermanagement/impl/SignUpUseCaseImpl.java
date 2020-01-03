@@ -14,7 +14,6 @@ import ir.maktab32.java.homeworks.hw9.articles.utilities.RoleTitle;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
 public class SignUpUseCaseImpl implements SignUpUseCase {
     @Override

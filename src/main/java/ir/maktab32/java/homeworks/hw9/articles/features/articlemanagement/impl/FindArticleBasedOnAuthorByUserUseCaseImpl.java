@@ -25,14 +25,14 @@ public class FindArticleBasedOnAuthorByUserUseCaseImpl implements FindArticleBas
                     result.add(i);
             }
             if (result.size() != 0)
-                System.out.println("Articles Found Successfully!");
+                System.out.println("\t\t\u2705 Articles Found Successfully!");
             else {
-                System.out.println("This Writer has No Articles!");
+                System.out.println("\t\t\u26a0 This Writer has No Articles!");
                 result = null;
             }
         }
         else {
-            System.out.println("Loading Articles Failed!");
+            System.out.println("\t\t\u26a0 Loading Articles Failed!");
             result = null;
         }
         return result;
@@ -41,7 +41,7 @@ public class FindArticleBasedOnAuthorByUserUseCaseImpl implements FindArticleBas
     private User inputAndValidation(){
         Scanner scanner = new Scanner(System.in);
         User result;
-        System.out.println("Writer's Username: ");
+        System.out.print("\t\u29bf Writer's Username: ");
         String authorUsername = scanner.nextLine();
         List<User> allUsers = UserRepository.getInstance().findAll();
         User requestedUser = null;
@@ -52,7 +52,7 @@ public class FindArticleBasedOnAuthorByUserUseCaseImpl implements FindArticleBas
             }
         }
         if (requestedUser == null){
-            System.out.println("This Username Doesn't Exist in Database!");
+            System.out.println("\t\t\u26a0 This Username Doesn't Exist in Database!");
             result = null;
         }
         else {
@@ -64,7 +64,7 @@ public class FindArticleBasedOnAuthorByUserUseCaseImpl implements FindArticleBas
                 }
             }
             if (!isWriter){
-                System.out.println("Requested User is not a writer");
+                System.out.println("\t\t\u26a0 Requested User Isn't A Writer!");
                 result = null;
             }
             else {

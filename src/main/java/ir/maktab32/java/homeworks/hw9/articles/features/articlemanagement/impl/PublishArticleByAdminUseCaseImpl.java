@@ -1,14 +1,10 @@
 package ir.maktab32.java.homeworks.hw9.articles.features.articlemanagement.impl;
 
 import ir.maktab32.java.homeworks.hw9.articles.entities.Article;
-import ir.maktab32.java.homeworks.hw9.articles.entities.Role;
-import ir.maktab32.java.homeworks.hw9.articles.entities.User;
 import ir.maktab32.java.homeworks.hw9.articles.features.articlemanagement.usecase.PublishArticleByAdminUseCase;
 import ir.maktab32.java.homeworks.hw9.articles.repositories.ArticleRepository;
-import ir.maktab32.java.homeworks.hw9.articles.share.AuthenticationService;
 import ir.maktab32.java.homeworks.hw9.articles.utilities.CurrentUserStatus;
 import ir.maktab32.java.homeworks.hw9.articles.utilities.IsNumeric;
-import ir.maktab32.java.homeworks.hw9.articles.utilities.RoleTitle;
 
 import java.util.Date;
 import java.util.Scanner;
@@ -24,11 +20,11 @@ public class PublishArticleByAdminUseCaseImpl implements PublishArticleByAdminUs
             article.setIsPublished(true);
             article.setPublishDate(new Date());
             ArticleRepository.getInstance().update(article);
-            System.out.println("Article Published Successfully!");
+            System.out.println("\t\t\u2705 Article Published Successfully!");
             result = true;
         }
         else {
-            System.out.println("Article Publish Failed!");
+            System.out.println("\t\t\u26a0 Article Publish Failed!");
             result = false;
         }
         return result;
@@ -39,15 +35,15 @@ public class PublishArticleByAdminUseCaseImpl implements PublishArticleByAdminUs
         Long result;
 
         if (!CurrentUserStatus.isAdmin()){
-            System.out.println("sign in as admin");
+            System.out.println("\t\u26a0 Sign In As Admin!");
             result = null;
         }
         else {
-            System.out.print("Article Id: ");
+            System.out.print("\t\u29bf Article Id: ");
             String articleId = scanner.nextLine();
             if (IsNumeric.execute(articleId) && ArticleRepository.getInstance().isExisting(Long.parseLong(articleId))){
                 if (ArticleRepository.getInstance().findById(Long.parseLong(articleId)).getIsPublished() == true){
-                    System.out.println("This Article is Published Already!");
+                    System.out.println("\t\t\u26a0 This Article is Published Already!");
                     result = null;
                 }
                 else {
@@ -55,7 +51,7 @@ public class PublishArticleByAdminUseCaseImpl implements PublishArticleByAdminUs
                 }
             }
             else {
-                System.out.println("Invalid Article Id!");
+                System.out.println("\t\t\u26a0 Invalid Article Id!");
                 result = null;
             }
         }

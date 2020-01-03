@@ -8,7 +8,6 @@ import ir.maktab32.java.homeworks.hw9.articles.repositories.TagRepository;
 import ir.maktab32.java.homeworks.hw9.articles.share.AuthenticationService;
 import ir.maktab32.java.homeworks.hw9.articles.utilities.CurrentUserStatus;
 import ir.maktab32.java.homeworks.hw9.articles.utilities.IsNumeric;
-import ir.maktab32.java.homeworks.hw9.articles.utilities.RoleTitle;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -78,7 +77,7 @@ public class AddArticleByWriterUseCaseImpl implements AddArticleByWriterUseCase 
         }
         else {
             for (int i = 0; i < allCategories.size(); i++){
-                System.out.println("\t" + (i+1) + ". " + allCategories.get(i));
+                System.out.println("\t\t" + (i+1) + ". " + allCategories.get(i));
             }
 
             String chosenNumber = "";
@@ -105,7 +104,7 @@ public class AddArticleByWriterUseCaseImpl implements AddArticleByWriterUseCase 
         }
         else {
             for (int i = 0; i < allTags.size(); i++) {
-                System.out.println("\t" + (i + 1) + ". " + allTags.get(i));
+                System.out.println("\t\t" + (i + 1) + ". " + allTags.get(i));
             }
             result = new ArrayList<>();
             String chosenNumber = "";

@@ -14,10 +14,10 @@ public class FindArticleBasedOnIdByUserUseCaseImpl implements FindArticleBasedOn
         Long validatedId = inputAndValidation();
         if (validatedId != null){
             result = ArticleRepository.getInstance().findById(validatedId);
-            System.out.println("Article Loaded Successfully!");
+            System.out.println("\t\t\u2705 Article Loaded Successfully!");
         }
         else {
-            System.out.println("Loading Article Failed!");
+            System.out.println("\t\t\u26a0 Loading Article Failed!");
             result = null;
         }
         return result;
@@ -27,13 +27,13 @@ public class FindArticleBasedOnIdByUserUseCaseImpl implements FindArticleBasedOn
         Scanner scanner = new Scanner(System.in);
         Long result;
 
-        System.out.print("Article Id: ");
+        System.out.print("\t\u29bf Article Id: ");
         String articleId = scanner.nextLine();
         if (IsNumeric.execute(articleId) && ArticleRepository.getInstance().isExisting(Long.parseLong(articleId))){
             result = Long.parseLong(articleId);
         }
         else {
-            System.out.println("Invalid Article Id!");
+            System.out.println("\t\t\u26a0 Invalid Article Id!");
             result = null;
         }
 

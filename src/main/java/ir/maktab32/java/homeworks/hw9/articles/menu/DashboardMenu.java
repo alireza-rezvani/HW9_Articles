@@ -8,11 +8,17 @@ public class DashboardMenu {
     public static void execute(){
 
         if (!CurrentUserStatus.isSignedIn()){
-            System.out.println("sign in first");
+            System.out.println("\t\u26a0 Sign In First!");
         }
-        else if (CurrentUserStatus.isWriter())
-            System.out.println(new GetDashboardByWriterUseCaseImpl());
-        else if (CurrentUserStatus.isAdmin())
-            System.out.println(new GetDashboardByAdminUseCaseImpl());
+        else {
+            if (CurrentUserStatus.isWriter()) {
+                System.out.println("\u29bf Writer Dashboard!");
+                System.out.println(new GetDashboardByWriterUseCaseImpl().execute());
+            }
+            if (CurrentUserStatus.isAdmin()){
+                System.out.println("\u29bf Admin Dashboard!");
+                System.out.println(new GetDashboardByAdminUseCaseImpl().execute());
+            }
+        }
     }
 }

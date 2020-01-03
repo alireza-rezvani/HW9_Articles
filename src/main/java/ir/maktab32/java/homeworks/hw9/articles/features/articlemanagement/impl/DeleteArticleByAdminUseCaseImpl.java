@@ -1,14 +1,9 @@
 package ir.maktab32.java.homeworks.hw9.articles.features.articlemanagement.impl;
 
-import ir.maktab32.java.homeworks.hw9.articles.entities.Article;
-import ir.maktab32.java.homeworks.hw9.articles.entities.Role;
-import ir.maktab32.java.homeworks.hw9.articles.entities.User;
 import ir.maktab32.java.homeworks.hw9.articles.features.articlemanagement.usecase.DeleteArticleByAdminUseCase;
 import ir.maktab32.java.homeworks.hw9.articles.repositories.ArticleRepository;
-import ir.maktab32.java.homeworks.hw9.articles.share.AuthenticationService;
 import ir.maktab32.java.homeworks.hw9.articles.utilities.CurrentUserStatus;
 import ir.maktab32.java.homeworks.hw9.articles.utilities.IsNumeric;
-import ir.maktab32.java.homeworks.hw9.articles.utilities.RoleTitle;
 
 import java.util.Scanner;
 
@@ -20,11 +15,11 @@ public class DeleteArticleByAdminUseCaseImpl implements DeleteArticleByAdminUseC
         if (validatedArticleId != null){
             ArticleRepository.getInstance().removeById(validatedArticleId);
             result = true;
-            System.out.println("article deleted successfully");
+            System.out.println("\t\t\u2705 Article Deleted Successfully!");
         }
         else {
             result = false;
-            System.out.println("deleting article failed");
+            System.out.println("\t\t\u26a0 Deleting Article Failed!");
         }
         return result;
     }
@@ -33,17 +28,17 @@ private Long inputAndValidate(){
     Scanner scanner = new Scanner(System.in);
     Long result;
     if (!CurrentUserStatus.isAdmin()){
-        System.out.println("sign in as admin");
+        System.out.println("\t\u26a0 Sign In As Admin!");
         result = null;
     }
     else {
-        System.out.print("article id: ");
+        System.out.print("\t\u29bf Article Id: ");
         String articleId = scanner.nextLine();
         if (IsNumeric.execute(articleId) && ArticleRepository.getInstance().isExisting(Long.parseLong(articleId))){
             result = Long.parseLong(articleId);
         }
         else {
-            System.out.println("Invalid article id");
+            System.out.println("\t\t\u26a0 Invalid Article Id!");
             result = null;
         }
     }

@@ -10,7 +10,7 @@
         <property name="hibernate.connection.password"></property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
-        <property name="show_sql">true</property>
+        <property name="show_sql">false</property>
         <mapping class="ir.maktab32.java.homeworks.hw9.articles.entities.User"/>
         <mapping class="ir.maktab32.java.homeworks.hw9.articles.entities.Article"/>
         <mapping class="ir.maktab32.java.homeworks.hw9.articles.entities.Category"/>

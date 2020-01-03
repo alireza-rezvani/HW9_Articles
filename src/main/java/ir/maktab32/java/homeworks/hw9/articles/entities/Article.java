@@ -31,7 +31,7 @@ public class Article {
     @Column(nullable = false)
     private Boolean isPublished;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     private List<Tag> tags;
 
     @ManyToOne
@@ -39,4 +39,21 @@ public class Article {
 
     @ManyToOne
     private  Category category;
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", brief='" + brief + '\'' +
+                ", content='" + content + '\'' +
+                ", createDate=" + createDate +
+                ", lastUpdateDate=" + lastUpdateDate +
+                ", publishDate=" + publishDate +
+                ", isPublished=" + isPublished +
+                ", tags=" + tags +
+                ", author=" + author +
+                ", category=" + category +
+                '}';
+    }
 }

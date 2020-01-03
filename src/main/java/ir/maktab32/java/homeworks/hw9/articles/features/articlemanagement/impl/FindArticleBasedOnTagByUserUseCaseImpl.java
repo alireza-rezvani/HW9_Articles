@@ -11,6 +11,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class FindArticleBasedOnTagByUserUseCaseImpl implements FindArticleBasedOnTagByUserUseCase {
+
+    //another solution
+    //we can also find articles based on tags using many to many
+
     @Override
     public List<Article> execute() {
         List<Article> result;
@@ -23,14 +27,14 @@ public class FindArticleBasedOnTagByUserUseCaseImpl implements FindArticleBasedO
                     result.add(i);
             }
             if (result.size() != 0)
-                System.out.println("Articles Found Successfully!");
+                System.out.println("\t\t\u2705 Articles Found Successfully!");
             else {
-                System.out.println("There is No Article fot This Tag!");
+                System.out.println("\t\t\u26a0 There is No Article fot This Tag!");
                 result = null;
             }
         }
         else {
-            System.out.println("Articles Loading Failed!");
+            System.out.println("\t\t\u26a0 Articles Loading Failed!");
             result = null;
         }
         return result;
@@ -39,7 +43,7 @@ public class FindArticleBasedOnTagByUserUseCaseImpl implements FindArticleBasedO
     private Tag inputAndValidation(){
         Scanner scanner = new Scanner(System.in);
         Tag result;
-        System.out.print("Tag Title: ");
+        System.out.print("\t\u29bf Tag Title: ");
         String tagTitle = scanner.nextLine();
         Tag requestedTag = null;
         for (Tag i : TagRepository.getInstance().findAll()){
@@ -49,7 +53,7 @@ public class FindArticleBasedOnTagByUserUseCaseImpl implements FindArticleBasedO
             }
         }
         if (requestedTag == null){
-            System.out.println("Requested Tag Doesn't Exist!");
+            System.out.println("\t\t\u26a0 Requested Tag Doesn't Exist!");
             result = null;
         }
         else {

@@ -15,11 +15,11 @@ public class ChangePasswordByUserUseCaseImpl implements ChangePasswordByUserUseC
         User validatedUser = inputAndValidation();
         if (validatedUser != null){
             UserRepository.getInstance().update(validatedUser);
-            System.out.println("password changed successfully");
+            System.out.println("\t\t\u2705 Password Changed Successfully!");
             result = true;
         }
         else {
-            System.out.println("password change failed");
+            System.out.println("\t\t\u26a0 Password Change Failed!");
             result = false;
         }
         return result;
@@ -30,14 +30,14 @@ public class ChangePasswordByUserUseCaseImpl implements ChangePasswordByUserUseC
 
         User result;
         if (CurrentUserStatus.isSignedIn()) {
-            System.out.println("New Password: ");
+            System.out.print("\t\u29bf New Password: ");
             String newPassword = scanner.nextLine();
 
             result = AuthenticationService.getInstance().getSignedInUser();
             result.setPassword(newPassword);
         }
         else {
-            System.out.println("Sign in first");
+            System.out.println("\t\u26a0 Sign In First!");
             result = null;
         }
         return result;

@@ -20,7 +20,6 @@ public class CommandsMenu {
             System.out.println("| sign up        -->  Sign Up               |");
         }
         System.out.println("| all articles   -->  all Articles          |");
-        System.out.println("| article item   -->  Article Details       |");
         if (isWriter){
             System.out.println("| my articles    -->  My Articles           |");
             System.out.println("| add article    -->  Add Article           |");

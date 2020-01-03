@@ -20,7 +20,7 @@ public class Defaults {
 
         if (!UserRepository.getInstance().isExisting(1l)){
             User defaultAdmin = new User(null,"admin1","1",
-                    null, null, Arrays.asList(RoleRepository.getInstance().findById(1l)));
+                    "1111111111", "01.01.1988", Arrays.asList(RoleRepository.getInstance().findById(1l)));
             UserRepository.getInstance().save(defaultAdmin);
         }
 

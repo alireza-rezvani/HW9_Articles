@@ -22,10 +22,7 @@ public class User {
     private String nationalCode;
     private String birthday;
 
-//    @OneToMany(mappedBy = "author")
-//    private List<Article> articles;
-
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     private List<Role> roles;
 
     @Override

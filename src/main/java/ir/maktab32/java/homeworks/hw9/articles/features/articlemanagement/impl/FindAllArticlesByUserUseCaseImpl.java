@@ -12,10 +12,10 @@ public class FindAllArticlesByUserUseCaseImpl implements FindAllArticlesByUserUs
         List<Article> result;
         if (validation()) {
             result = ArticleRepository.getInstance().findAll();
-            System.out.println("Articles Loaded Successfully!");
+            System.out.println("\t\u2705 Articles Loaded Successfully!");
         }
         else {
-            System.out.println("Articles Loading Failed!");
+            System.out.println("\t\u26a0 Articles Loading Failed!");
             result = null;
         }
         return result;
@@ -24,7 +24,7 @@ public class FindAllArticlesByUserUseCaseImpl implements FindAllArticlesByUserUs
     private boolean validation(){
         boolean result = true;
         if (ArticleRepository.getInstance().findAll().size() == 0){
-            System.out.println("There is No Article In Database!");
+            System.out.println("\t\u26a0 There is No Article In Database!");
             result = false;
         }
         return result;

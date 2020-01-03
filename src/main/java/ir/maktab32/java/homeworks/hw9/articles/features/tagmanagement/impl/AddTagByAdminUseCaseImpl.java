@@ -14,11 +14,11 @@ public class AddTagByAdminUseCaseImpl implements AddTagByAdminUseCase {
         Tag validatedTag = inputAndValidation();
         if (validatedTag != null){
             TagRepository.getInstance().save(validatedTag);
-            System.out.println("tag saved");
+            System.out.println("\t\t\u2705 Tag Saved Successfully!");
             result = validatedTag;
         }
         else {
-            System.out.println("saving tag failed");
+            System.out.println("\t\t\u26a0 Saving Tag Failed!");
             result = null;
         }
         return result;
@@ -28,7 +28,7 @@ public class AddTagByAdminUseCaseImpl implements AddTagByAdminUseCase {
         Scanner scanner = new Scanner(System.in);
         Tag result;
         if (CurrentUserStatus.isAdmin()){
-            System.out.print("tag title: ");
+            System.out.print("\t\u29bf Tag Title: ");
             String tag = scanner.nextLine();
             boolean tagExist = false;
             for (Tag i : TagRepository.getInstance().findAll()){
@@ -38,7 +38,7 @@ public class AddTagByAdminUseCaseImpl implements AddTagByAdminUseCase {
                 }
             }
             if (tagExist){
-                System.out.println("this tag already exists");
+                System.out.println("\t\t\u26a0 This Tag Already Exists!");
                 result = null;
             }
             else {
@@ -46,7 +46,7 @@ public class AddTagByAdminUseCaseImpl implements AddTagByAdminUseCase {
             }
         }
         else {
-            System.out.println("sign in as admin");
+            System.out.println("\t\u26a0 Sign In As Admin!");
             result = null;
         }
 

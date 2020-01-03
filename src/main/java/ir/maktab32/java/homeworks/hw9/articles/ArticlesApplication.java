@@ -1,5 +1,6 @@
 package ir.maktab32.java.homeworks.hw9.articles;
 
+import ir.maktab32.java.homeworks.hw9.articles.entities.Article;
 import ir.maktab32.java.homeworks.hw9.articles.features.articlemanagement.impl.*;
 import ir.maktab32.java.homeworks.hw9.articles.features.categorymanagement.impl.AddCategoryByAdminUseCaseImpl;
 import ir.maktab32.java.homeworks.hw9.articles.features.tagmanagement.impl.AddTagByAdminUseCaseImpl;
@@ -7,8 +8,11 @@ import ir.maktab32.java.homeworks.hw9.articles.features.usermanagement.impl.*;
 import ir.maktab32.java.homeworks.hw9.articles.menu.CommandsMenu;
 import ir.maktab32.java.homeworks.hw9.articles.menu.DashboardMenu;
 import ir.maktab32.java.homeworks.hw9.articles.menu.SearchMenu;
+import ir.maktab32.java.homeworks.hw9.articles.repositories.ArticleRepository;
 import ir.maktab32.java.homeworks.hw9.articles.utilities.Defaults;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ArticlesApplication {
@@ -21,7 +25,7 @@ public class ArticlesApplication {
         String command = "";
 
         while (!command.equals("exit")){
-            System.out.println("command: ");
+            System.out.println("\u29bf Input Command:\t(menu --> Menu)");
             command = scanner.nextLine();
 
             if (command.equals("menu")){
@@ -61,19 +65,35 @@ public class ArticlesApplication {
                 new EditArticleByWriterUseCaseImpl().execute();
             }
             else if (command.equals("all articles")){
-                new FindAllArticlesByUserUseCaseImpl().execute();
+                List<Article> articles = new FindAllArticlesByUserUseCaseImpl().execute();
+                if (articles != null) {
+                    for (Article i : articles) {
+                        System.out.println("\tId: " + i.getId() + "\tTitle: "
+                                + i.getTitle() + "\tBrief: " + i.getBrief());
+                    }
+                    System.out.println("\t\t\u2705 Go to 'search' to See Article Details!");
+                }
             }
             else if (command.equals("search")){
                 SearchMenu.execute();
             }
             else if (command.equals("my articles")){
-                System.out.println(new FindWriterArticlesByWriterUseCaseImpl().execute());
+                List<Article> articles = new FindWriterArticlesByWriterUseCaseImpl().execute();
+                if (articles != null)
+                    articles.forEach(System.out::println);
+
             }
             else if (command.equals("publish")){
                 new PublishArticleByAdminUseCaseImpl().execute();
             }
             else if (command.equals("unpublish")){
                 new UnPublishArticleByAdminUseCaseImpl().execute();
+            }
+            else if (command.equals("exit")){
+                System.out.println("\t\u2705 Bye!");
+            }
+            else {
+                System.out.println("\t\u26a0 Invalid Command!");
             }
         }
     }

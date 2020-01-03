@@ -21,14 +21,14 @@ public class FindArticleBasedOnTitleByUserUseCaseImpl implements FindArticleBase
                     result.add(i);
             }
             if (result.size() != 0)
-                System.out.println("Articles Found Successfully!");
+                System.out.println("\t\t\u2705 Articles Found Successfully!");
             else {
-                System.out.println("No Matches Found!");
+                System.out.println("\t\t\u26a0 No Matches Found!");
                 result = null;
             }
         }
         else {
-            System.out.println("Loading Articles Failed!");
+            System.out.println("\t\t\u26a0 Loading Articles Failed!");
             result = null;
         }
         return result;
@@ -38,7 +38,7 @@ public class FindArticleBasedOnTitleByUserUseCaseImpl implements FindArticleBase
         Scanner scanner = new Scanner(System.in);
         String result;
 
-        System.out.print("Title: ");
+        System.out.print("\t\u29bf Title: ");
         result = scanner.nextLine();
 
         //nothing to check

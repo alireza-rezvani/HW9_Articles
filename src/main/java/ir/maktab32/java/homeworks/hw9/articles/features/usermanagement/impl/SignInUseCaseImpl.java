@@ -15,7 +15,7 @@ public class SignInUseCaseImpl implements SignInUseCase {
         User result;
         User validateResult = inputAndValidation();
         if (validateResult != null){
-            System.out.println("\t\t\u26a0 Sign In Successful!");
+            System.out.println("\t\t\u2705 Sign In Successful!");
             result = validateResult;
             AuthenticationService.getInstance().setSignedInUser(result);
         }
@@ -34,9 +34,9 @@ public class SignInUseCaseImpl implements SignInUseCase {
         if (CurrentUserStatus.isSignedIn())
             System.out.println("\t\u26a0 You Are Signed In Already!" );
         else {
-            System.out.print("Username: ");
+            System.out.print("\t\u29bf Username: ");
             String username = scanner.nextLine();
-            System.out.print("Password: ");
+            System.out.print("\t\u29bf Password: ");
             String password = scanner.nextLine();
 
             List<User> allUsers = UserRepository.getInstance().findAll();
